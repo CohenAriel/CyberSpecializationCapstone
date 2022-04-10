@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app')
+var https = require('https')
+var fs = require('fs')
+
+/**
+ * Create HTTPS and HTTP servers.
+ */
+
+var httpsServer = https.createServer({
+  key: fs.readFileSync(__dirname + '/../certs/selfsigned.key'),
+  cert: fs.readFileSync(__dirname + '/../certs/selfsigned.crt')
+}, app)
+
+/**
+ * Listen on port, on all network interfaces.
+ */
+
+httpsServer.listen(8443)

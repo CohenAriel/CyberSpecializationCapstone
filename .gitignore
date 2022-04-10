@@ -1,0 +1,5 @@
+# dependencies
+node_modules
+
+# keys and certs
+certs
