@@ -1,9 +1,6 @@
 var crypto = require('crypto')
 var sqlite3 = require('sqlite3')
 db = new sqlite3.Database('db')
-require('dotenv').config('./.env')
-var algorithm = 'aes-256-cbc'
-var key = process.env.SECRET
 
 exports.register = function (uname, pwd) {
     crypto.randomBytes(16, (err, salt) => {
