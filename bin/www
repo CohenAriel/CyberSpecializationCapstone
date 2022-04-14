@@ -7,14 +7,15 @@
 var app = require('../app')
 var https = require('https')
 var fs = require('fs')
+require('dotenv').config('./.env')
 
 /**
- * Create HTTPS and HTTP servers.
+ * Create HTTPS servers.
  */
 
 var httpsServer = https.createServer({
-  key: fs.readFileSync(__dirname + '/../certs/selfsigned.key'),
-  cert: fs.readFileSync(__dirname + '/../certs/selfsigned.crt')
+  key: process.env.KEY,
+  cert: process.env.CRT
 }, app)
 
 /**
