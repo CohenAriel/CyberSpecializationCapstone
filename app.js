@@ -3,6 +3,7 @@ var { body, validationResult } = require('express-validator')
 var path = require('path')
 var session = require('express-session')
 const { xss } = require('express-xss-sanitizer')
+require('dotenv').config('./.env')
 
 var app = express()
 
@@ -11,7 +12,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
 app.use(session({
-  secret: 'JHjdfh%jsk23j7$@52kjfdjkGD@F767&3t2rdald3943ncgyusud',
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: { secure: true }
