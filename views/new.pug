@@ -1,0 +1,73 @@
+extends layout
+
+block layout-content
+    div.View
+        h1.Banner NEW MESSAGE
+        div.Alerts
+            if error
+                div.Alert User doesn't exist.
+                    span.CloseButton(onclick="this.parentElement.style.display='none'") &times
+        div.Send
+            form(action='/new' method='post')
+                input#target(type='text' name='target' placeholder="Receiver's username")
+                textarea#message(rows=10 name='message' placeholder='Type message here...')
+                input(type='submit' value='')
+                div.Plane
+                    i.fas.fa-paper-plane
+
+        style(type='text/css').
+            .Send {
+                width: 900px;
+                height: fit-content;
+                background-color: #ffffff;
+                box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+                margin: 0 auto;
+            }
+
+            .Send form {
+                display: inline;
+                flex-direction: column;
+                justify-content: center;
+                padding-top: 100px;
+            }
+
+            .Send form input[type="text"] {
+                width: 100%;
+                height: 50px;
+                border: 1px solid #dee0e4;
+                padding: 0 15px;
+                font-size: 18px;
+            }
+
+            .Send form textarea {
+                width: 100%;
+                height: 300px;
+                border: 2px solid #dee0e4;
+                margin-top: 15px;
+                font-size: 18px;
+            }
+
+            .Send form input[type="submit"] {
+                cursor: pointer;
+                width: 100%;
+                padding: 10px;
+                transition-duration: 0.3s;
+                text-align: center;
+                background: #cedef8;
+            }
+
+            .Plane {
+                position: absolute;
+                font-size: 24px;
+                color: #287af5;
+                bottom: 25px;
+                right: 50%;
+            }
+
+            .Send form input[type="submit"]:hover + .Plane {
+                color: white;
+            }
+
+            .Send form input[type="submit"]:hover {
+                background-color: #287af5;
+            }

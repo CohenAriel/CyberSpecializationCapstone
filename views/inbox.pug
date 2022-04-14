@@ -1,0 +1,68 @@
+extends layout
+
+block layout-content
+    div.View
+        h1.Banner INBOX
+        div.Messages
+            each m in messages ? messages : [['Your inbox is empty.']]
+                div.Message
+                    if m[2]
+                        strong from: #{m[2]}
+                        br
+                    i #{m[0].substring(0, 70)}
+                    div.Time #{m[1]}
+        a.Send(href="/new")
+            p new message
+            i.fas.fa-plus
+        style(type='text/css').
+            .Messages {
+                display: flex;
+                flex-direction: column-reverse;
+                justify-content: flex-end;
+                margin-top: 140px;
+                overflow: auto;
+                height: 600px;
+                position: fixed;
+            }
+
+            .Message {
+                margin-bottom: 25px;
+                width: 800px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+
+            .Message:hover {
+                background-color: lightgray;
+            }
+
+            .Time {
+                position: absolute;
+                right: 15px;
+                color: #aaa;
+                font-size: 12px;
+            }
+
+            .Send {
+                background-color: #cedef8;
+                cursor: pointer;
+                border-radius: 50%;
+                width: 200px;
+                height: 200px;
+                right: 25px;
+                bottom: 25px;
+                position: absolute;
+                text-align: center;
+                color: #287af5;
+                transition-duration: 0.3s;
+            }
+
+            .Send i {
+                font-size: 96px;
+                padding-top: calc(25% - 48px);
+            }
+
+            .Send:hover {
+                background-color: #287af5;
+                color: #cedef8;
+            }

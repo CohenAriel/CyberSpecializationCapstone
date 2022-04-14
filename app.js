@@ -1,34 +1,35 @@
-var express = require('express');
-var path = require('path');
+var express = require('express')
+var { body, validationResult } = require('express-validator')
+var path = require('path')
+var session = require('express-session')
+const { xss } = require('express-xss-sanitizer')
 
-var indexRouter = require('./routes/index');
-
-var app = express();
+var app = express()
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'pug')
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'JHjdfh%jsk23j7$@52kjfdjkGD@F767&3t2rdald3943ncgyusud',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(xss())
 
-app.use('/', indexRouter);
+require('./routes/register')(app, body, validationResult)
+require('./routes/index')(app)
+require('./routes/login')(app, body)
+require('./routes/inbox')(app)
+require('./routes/new')(app, body)
+require('./routes/dbdump')(app)
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  ;
-});
+app.use(function (req, res, next) {
+  res.render('404')
+})
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app;
+module.exports = app

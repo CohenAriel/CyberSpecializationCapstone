@@ -1,0 +1,40 @@
+extends layout
+
+block layout-content
+    div.View
+        h1.Banner LOGIN
+        div.Alerts
+            if error
+                div.Alert #{error}
+                    span.CloseButton(onclick="this.parentElement.style.display='none'") &times
+        div.Inputs
+            form(action='/login' method='post')
+                label(for='username')
+                    i.fas.fa-user
+                input#username(type='text' name='username' placeholder='Username')
+
+                label(for='password')
+                    i.fas.fa-key
+                input#password(type=`${show ? 'text' : 'password'}` name='password' placeholder='Password')
+                div.TogglePassword
+                    i.far.fa-eye#togglePassword
+
+                script.
+                    const togglePassword = document.querySelector("#togglePassword")
+                    const password = document.querySelector("#password")
+                    togglePassword.addEventListener("click", function () {
+                        const type = password.getAttribute("type") === "password" ? "text" : "password"
+                        password.setAttribute("type", type)
+                        togglePassword.classList.toggle("fa-eye-slash")
+                    })
+
+                style(type='text/css').
+                    .TogglePassword {
+                        position: fixed;
+                        margin-left: 450px;
+                        margin-top: 22px;
+                        cursor: pointer;
+                    }
+
+
+                input(type='submit' value='Login')

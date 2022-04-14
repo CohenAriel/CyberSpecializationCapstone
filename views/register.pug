@@ -1,0 +1,93 @@
+extends layout
+
+block layout-content
+    div.View
+        h1.Banner REGISTER
+        div.Alerts
+            each e in errors ? errors : []
+                div.Alert #{e}
+                    span.CloseButton(onclick="this.parentElement.style.display='none'") &times
+        div.Inputs
+            form(action='/register' method='post')
+                label(for='username')
+                    i.fas.fa-user
+                input#username(type='text' name='username' placeholder='Username')
+
+                label(for='password')
+                    i.fas.fa-key
+                input#password(type=`${show ? 'text' : 'password'}` name='password' placeholder='Password')
+                div.TogglePassword
+                    i.far.fa-eye#togglePassword
+
+                div.Gen#gen
+                    i.fas.fa-dice
+                    p &nbsp&nbsp&nbspGenerate password (recommended)
+                style(type='text/css').
+                    .Gen {
+                        position: fixed;
+                        margin-top: 53px;
+                        transition-duration: 0.3s;
+                        text-align: center;
+                        cursor: pointer;
+                    }
+
+                    .Gen p {
+                        display: inline-block;
+                        font-size: 12px;
+                        font-style: italic;
+                    }
+
+                    .Gen:hover {
+                        color: #287af5;
+                    }
+
+                label(for='confirm')
+                    i.fas.fa-key
+                input#confirm(type='password' name='confirm' placeholder='Confirm password')
+                div.ToggleConfirm
+                    i.far.fa-eye#toggleConfirm
+
+                script.
+                    const togglePassword = document.querySelector("#togglePassword")
+                    const password = document.querySelector("#password")
+                    togglePassword.addEventListener("click", function () {
+                        const type = password.getAttribute("type") === "password" ? "text" : "password"
+                        password.setAttribute("type", type)
+                        togglePassword.classList.toggle("fa-eye-slash")
+                    })
+
+                    const toggleConfirm = document.querySelector("#toggleConfirm")
+                    const confirm = document.querySelector("#confirm")
+                    toggleConfirm.addEventListener("click", function () {
+                        const type = confirm.getAttribute("type") === "password" ? "text" : "password"
+                        confirm.setAttribute("type", type)
+                        toggleConfirm.classList.toggle("fa-eye-slash")
+                    })
+
+                    document.querySelector("#gen").addEventListener("click", function () {
+                        fetch("/register?gen=", {
+                            method: "GET",
+                            headers: {'Content-Type': 'application/json'}
+                        }).then(res => res.text())
+                        .then(function (restext) {
+                            password.setAttribute("value", restext)
+                            password.setAttribute("type", "text")
+                            togglePassword.classList.add("fa-eye-slash")
+                        })
+                    })
+
+                style(type='text/css').
+                    .TogglePassword,
+                    .ToggleConfirm {
+                        position: fixed;
+                        margin-left: 450px;
+                        cursor: pointer;
+                    }
+                    .TogglePassword {
+                        margin-top: 22px;
+                    }
+                    .ToggleConfirm {
+                        margin-top: 106px;
+                    }
+
+                input(type='submit' value='Register')
